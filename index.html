@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login de Alumnos</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        .login-container, .perfil-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+        }
+        h2 {
+            text-align: center;
+            color: #0e263e;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #1e90ff;
+        }
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e90ff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1c86ee;
+        }
+        .perfil {
+            display: flex;
+            align-items: center;
+        }
+        .perfil img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            border: 3px solid #1e90ff;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+        .info {
+            flex: 1;
+        }
+        .info p {
+            margin: 5px 0;
+            color: #333;
+        }
+        .info button {
+            margin-top: 10px;
+            background-color: #1e90ff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .info button:hover {
+            background-color: #1c86ee;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <img src="BACHI.png" alt="Logo" class="logo">
+        <h2>Bienvenido </h2>
+        <form id="loginForm">
+            <label for="matricula">Matrícula:</label>
+            <input type="text" id="matricula" name="matricula" required>
+            
+            <label for="dia">Día:</label>
+            <input type="number" id="dia" name="dia" min="1" max="31" required>
+            
+            <label for="mes">Mes:</label>
+            <input type="number" id="mes" name="mes" min="1" max="12" required>
+            
+            <label for="anio">Año:</label>
+            <input type="number" id="anio" name="anio" min="1800" required>
+            
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <div class="perfil-container" id="perfilContainer" style="display: none;">
+        <img src="BACHI.png" alt="Logo" class="logo">
+        <h2>Que bueno verte de nuevo</h2>
+        <div class="perfil">
+            <img id="fotoAlumno" src="" alt="Foto del Alumno" onclick="abrirDocumentos()">
+            <div class="info">
+                <p id="infoMatricula"></p>
+                <p id="infoNombre"></p>
+                <p id="infoFechaNacimiento"></p>
+                <button onclick="abrirDocumentos()">Ver Documento</button>
+                <button onclick="regresar()">Regresar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            mostrarPerfil();
+        });
+
+        function mostrarPerfil() {
+            const matricula = document.getElementById('matricula').value;
+            const dia = document.getElementById('dia').value;
+            const mes = document.getElementById('mes').value;
+            const anio = document.getElementById('anio').value;
+
+            document.getElementById('fotoAlumno').src = 'imagen de persona hombre.png';
+            document.getElementById('fotoAlumno').setAttribute('data-link', 'https://drive.google.com/file/d/0ByY1ndAfoS5vN0Z4cVMwOUxwVlk/view?usp=drive_link&resourcekey=0-80ljjI-z3biyt9H-uCbALg');
+            document.getElementById('fotoAlumno').dataset.matricula = matricula;
+            document.getElementById('infoMatricula').innerText = 'Matrícula: ' + matricula;
+            document.getElementById('infoNombre').innerText = 'Nombre: Francisco Javier Aburto Diaz';
+            document.getElementById('infoFechaNacimiento').innerText = 'Fecha de Nacimiento: ' + dia + '/' + mes + '/' + anio;
+
+            document.querySelector('.login-container').style.display = 'none';
+            document.getElementById('perfilContainer').style.display = 'block';
+        }
+
+        function regresar() {
+            document.querySelector('.login-container').style.display = 'block';
+            document.getElementById('perfilContainer').style.display = 'none';
+        }
+
+        function abrirDocumentos() {
+            const matricula = document.getElementById('fotoAlumno').dataset.matricula;
+            window.open('documentos/' + matricula + '.pdf', '_blank');
+        }
+    </script>
+</body>
+</html>
