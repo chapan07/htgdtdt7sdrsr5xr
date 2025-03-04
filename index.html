@@ -3,161 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login de Alumnos</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Colegio de Bachilleres del Estado de Michoacán</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-        }
-        .login-container, .perfil-container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #c8dcec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
             position: relative;
         }
         .logo {
             position: absolute;
             top: 10px;
             right: 10px;
-            width: 50px;
-            height: 50px;
+            max-width: 100px;
         }
-        h2 {
+        .login-container, .register-container, .search-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
             text-align: center;
-            color: #0e263e;
         }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            color: #1e90ff;
+        .login-container h2, .register-container h2, .search-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
         }
-        input[type="text"], input[type="number"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
+        .login-container input[type="text"],
+        .login-container input[type="password"],
+        .register-container input[type="text"],
+        .register-container input[type="file"],
+        .search-container input[type="text"] {
             width: 100%;
             padding: 10px;
-            background-color: #1e90ff;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-container input[type="submit"],
+        .register-container input[type="submit"],
+        .register-container input[type="button"],
+        .search-container input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #124ba6;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             color: #fff;
             font-size: 16px;
             cursor: pointer;
-        }
-        button:hover {
-            background-color: #1c86ee;
-        }
-        .perfil {
-            display: flex;
-            align-items: center;
-        }
-        .perfil img {
-            width: 150px;
-            height: 150px;
-            border-radius: 10px;
-            border: 3px solid #1e90ff;
-            cursor: pointer;
-            margin-right: 20px;
-        }
-        .info {
-            flex: 1;
-        }
-        .info p {
-            margin: 5px 0;
-            color: #333;
-        }
-        .info button {
             margin-top: 10px;
-            background-color: #1e90ff;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            padding: 10px;
-            cursor: pointer;
         }
-        .info button:hover {
-            background-color: #1c86ee;
+        .login-container input[type="submit"]:hover,
+        .register-container input[type="submit"]:hover,
+        .register-container input[type="button"]:hover,
+        .search-container input[type="button"]:hover {
+            background-color: #7a94c2;
+        }
+        .login-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+        .register-container, .search-container {
+            display: none;
+        }
+        .user-profile img {
+            max-width: 100px;
+            border-radius: 50%;
         }
     </style>
-</head>
-<body>
-    <div class="login-container">
-        <img src="BACHI.png" alt="Logo" class="logo">
-        <h2>Bienvenido </h2>
-        <form id="loginForm">
-            <label for="matricula">Matrícula:</label>
-            <input type="text" id="matricula" name="matricula" required>
-            
-            <label for="dia">Día:</label>
-            <input type="number" id="dia" name="dia" min="1" max="31" required>
-            
-            <label for="mes">Mes:</label>
-            <input type="number" id="mes" name="mes" min="1" max="12" required>
-            
-            <label for="anio">Año:</label>
-            <input type="number" id="anio" name="anio" min="1800" required>
-            
-            <button type="submit">Entrar</button>
-        </form>
-    </div>
-
-    <div class="perfil-container" id="perfilContainer" style="display: none;">
-        <img src="BACHI.png" alt="Logo" class="logo">
-        <h2>Que bueno verte de nuevo</h2>
-        <div class="perfil">
-            <img id="fotoAlumno" src="" alt="Foto del Alumno" onclick="abrirDocumentos()">
-            <div class="info">
-                <p id="infoMatricula"></p>
-                <p id="infoNombre"></p>
-                <p id="infoFechaNacimiento"></p>
-                <button onclick="abrirDocumentos()">Ver Documento</button>
-                <button onclick="regresar()">Regresar</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            mostrarPerfil();
-        });
+        let users = [];
 
-        function mostrarPerfil() {
+        function validateLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username === '21' && password === 'COBATA') {
+                document.querySelector('.login-container').style.display = 'none';
+                document.querySelector('.register-container').style.display = 'block';
+            } else {
+                alert('Usuario o contraseña incorrectos');
+            }
+        }
+
+        function registerUser() {
             const matricula = document.getElementById('matricula').value;
-            const dia = document.getElementById('dia').value;
-            const mes = document.getElementById('mes').value;
-            const anio = document.getElementById('anio').value;
+            const curp = document.getElementById('curp').value;
+            const birthCertificate = document.getElementById('birthCertificate').value;
+            const name = document.getElementById('name').value;
+            const capacitacion = document.getElementById('capacitacion').value;
+            const photo = document.getElementById('photo').files[0];
 
-            document.getElementById('fotoAlumno').src = 'imagen de persona hombre.png';
-            document.getElementById('fotoAlumno').setAttribute('data-link', 'https://drive.google.com/file/d/0ByY1ndAfoS5vN0Z4cVMwOUxwVlk/view?usp=drive_link&resourcekey=0-80ljjI-z3biyt9H-uCbALg');
-            document.getElementById('fotoAlumno').dataset.matricula = matricula;
-            document.getElementById('infoMatricula').innerText = 'Matrícula: ' + matricula;
-            document.getElementById('infoNombre').innerText = 'Nombre: Francisco Javier Aburto Diaz';
-            document.getElementById('infoFechaNacimiento').innerText = 'Fecha de Nacimiento: ' + dia + '/' + mes + '/' + anio;
-
-            document.querySelector('.login-container').style.display = 'none';
-            document.getElementById('perfilContainer').style.display = 'block';
+            if (matricula && curp && birthCertificate && name && capacitacion && photo) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    users.push({ matricula, curp, birthCertificate, name, capacitacion, photo: e.target.result });
+                    alert('Usuario registrado exitosamente');
+                    clearFields();
+                };
+                reader.readAsDataURL(photo);
+            } else {
+                alert('Por favor, complete todos los campos');
+            }
         }
 
-        function regresar() {
+        function clearFields() {
+            document.getElementById('matricula').value = '';
+            document.getElementById('curp').value = '';
+            document.getElementById('birthCertificate').value = '';
+            document.getElementById('name').value = '';
+            document.getElementById('capacitacion').value = '';
+            document.getElementById('photo').value = '';
+        }
+
+        function searchUser() {
+            const searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            const results = users.filter(user => user.matricula.toLowerCase().includes(searchTerm) || user.name.toLowerCase().includes(searchTerm));
+            displayResults(results);
+        }
+
+        function displayResults(results) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '';
+            if (results.length > 0) {
+                results.forEach(user => {
+                    const userDiv = document.createElement('div');
+                    userDiv.classList.add('user-profile');
+                    userDiv.innerHTML = `
+                        <img src="${user.photo}" alt="Foto de ${user.name}">
+                        <p>Matrícula: ${user.matricula}</p>
+                        <p>Nombre: ${user.name}</p>
+                    `;
+                    resultsContainer.appendChild(userDiv);
+                });
+            } else {
+                resultsContainer.textContent = 'No se encontraron resultados';
+            }
+        }
+
+        function goToHomePage() {
+            document.querySelector('.register-container').style.display = 'none';
+            document.querySelector('.search-container').style.display = 'none';
             document.querySelector('.login-container').style.display = 'block';
-            document.getElementById('perfilContainer').style.display = 'none';
-        }
-
-        function abrirDocumentos() {
-            const matricula = document.getElementById('fotoAlumno').dataset.matricula;
-            window.open('documentos/' + matricula + '.pdf', '_blank');
         }
     </script>
+</head>
+<body>
+    <img src="https://academica.cobamich.edu.mx/sicobaem/media/images/logos/logoBlue.svg" alt="Logo" class="logo">
+    <div class="login-container">
+        <h2>Colegio de Bachilleres del Estado de Michoacán</h2>
+        <form onsubmit="event.preventDefault(); validateLogin();">
+            <input type="text" id="username" placeholder="Usuario" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <input type="submit" value="INICIAR">
+        </form>
+        <a href="#">Recordarme</a> | <a href="#">Olvidé la contraseña</a>
+    </div>
+
+    <div class="register-container">
+        <img src="https://academica.cobamich.edu.mx/sicobaem/media/images/logos/logoBlue.svg" alt="Logo" class="logo">
+        <h2>Registro de Usuario</h2>
+        <form onsubmit="event.preventDefault(); registerUser();">
+            <input type="text" id="matricula" placeholder="Matrícula" required>
+            <input type="text" id="curp" placeholder="CURP" required>
+            <input type="text" id="birthCertificate" placeholder="Fecha de Nacimiento" required>
+            <input type="text" id="name" placeholder="Nombre" required>
+            <input type="text" id="capacitacion" placeholder="Capacitación" required>
+            <input type="file" id="photo" accept="image/*" required>
+            <input type="submit" value="Registrar">
+            <input type="button" value="Nuevo" onclick="clearFields();">
+        </form>
+        <input type="button" value="Buscar Usuarios" onclick="document.querySelector('.register-container').style.display = 'none'; document.querySelector('.search-container').style.display = 'block';">
+        <input type="button" value="Regresar a Inicio" onclick="goToHomePage();">
+    </div>
+
+    <div class="search-container">
+        <img src="https://academica.cobamich.edu.mx/sicobaem/media/images/logos/logoBlue.svg" alt="Logo" class="logo">
+        <h2>Buscar Usuarios</h2>
+        <input type="text" id="searchTerm" placeholder="Buscar por Matrícula o Nombre">
+        <input type="button" value="Buscar" onclick="searchUser();">
+        <div id="results"></div>
+        <input type="button" value="Volver al Registro" onclick="document.querySelector('.search-container').style.display = 'none'; document.querySelector('.register-container').style.display = 'block';">
+        <input type="button" value="Regresar a Inicio" onclick="goToHomePage();">
+    </div>
 </body>
 </html>
